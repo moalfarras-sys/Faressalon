@@ -317,11 +317,7 @@
     }
     .pill:hover{border-color:rgba(212,175,55,.55)}
 
-    .langSwitch{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .langBtn{padding:9px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.28);color:rgba(255,255,255,.86);font-weight:900;font-size:12px;cursor:pointer;
-    }
-    .langBtn[aria-pressed="true"]{border-color:rgba(212,175,55,.55);background:rgba(212,175,55,.10);color:#fff}
+    /* (lang switch removed — site is German-only) */
 
 </style>
 </head>
@@ -696,10 +692,6 @@
         <div>
           <div class="modal__title" id="bookingTitle">Termin anfragen (WhatsApp)</div>
           <div class="helper">Leistung auswählen – wir antworten schnell.</div>
-          <div class="langSwitch" aria-label="Sprache">
-            <button class="langBtn js-lang" type="button" data-lang="de" aria-pressed="true">Deutsch</button>
-            <button class="langBtn js-lang" type="button" data-lang="ar" aria-pressed="false">العربية</button>
-          </div>
         </div>
         <button class="modal__close js-booking-close" type="button" aria-label="Schließen">✕</button>
       </div>
@@ -806,36 +798,13 @@
     const dateEl = document.getElementById('bookingDate');
     const timeEl = document.getElementById('bookingTime');
     const hintEl = document.getElementById('bookingHint');
-    const langBtns = Array.from(document.querySelectorAll('.js-lang'));
     const quickBtns = Array.from(document.querySelectorAll('.js-quick'));
 
     const normalize = (s) => String(s || '').replace(/\s+/g, ' ').trim();
     const fmtDate = (v) => v ? v : '';
     const fmtTime = (v) => v ? v : '';
 
-    const getLang = () => {
-      const saved = localStorage.getItem('fares_booking_lang');
-      return saved === 'ar' ? 'ar' : 'de';
-    };
-    const setLang = (lang) => {
-      const next = lang === 'ar' ? 'ar' : 'de';
-      localStorage.setItem('fares_booking_lang', next);
-      langBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === next)));
-
-      // quick text labels
-      const labels = next === 'ar'
-        ? { today: 'اليوم', tomorrow: 'بكرا', after17: 'بعد 17:00', anytime: 'مرن' }
-        : { today: 'Heute', tomorrow: 'Morgen', after17: 'Nach 17:00', anytime: 'Flexibel' };
-      quickBtns.forEach(b => {
-        const k = b.dataset.quick;
-        if (labels[k]) b.textContent = labels[k];
-      });
-
-      // textarea direction preference
-      if (msgEl) msgEl.dir = next === 'ar' ? 'rtl' : 'auto';
-
-      refreshMessageSafe();
-    };
+    // German-only site: no language switch
 
     function buildServiceList(){
       const cards = Array.from(document.querySelectorAll('.priceCard'));
@@ -855,28 +824,12 @@
       return `${g}${s.title} — ${s.price}`;
     }
 
-    function defaultMessage(service, lang){
-      const l = lang === 'ar' ? 'ar' : 'de';
+    function defaultMessage(service){
       const name = normalize(nameEl?.value);
       const date = fmtDate(dateEl?.value);
       const time = fmtTime(timeEl?.value);
       const hint = normalize(hintEl?.value);
       const when = normalize([date, time].filter(Boolean).join(' '));
-
-      if (l === 'ar'){
-        const parts = [
-          'مرحبا صالون Fares،',
-          '',
-          `بدي أحجز خدمة: ${service.title} (${service.price}).`,
-          service.group ? `القسم: ${service.group}` : '',
-          name ? `الاسم: ${name}` : '',
-          when ? `الموعد المقترح: ${when}` : '',
-          hint ? `ملاحظة: ${hint}` : '',
-          '',
-          'شكراً'
-        ].filter(Boolean);
-        return parts.join('\n');
-      }
 
       const parts = [
         'Hallo Friseurssalon Fares,',
@@ -925,7 +878,7 @@
         return JSON.parse(decodeURIComponent(serviceSelect.value));
       }catch{ return services[0] || { title:'', price:'', group:'' }; }
     }
-    function refreshMessageSafe(){ msgEl.value = defaultMessage(selectedService(), getLang()); }
+    function refreshMessageSafe(){ msgEl.value = defaultMessage(selectedService()); }
 
     // open handlers
     document.querySelectorAll('.js-booking-open').forEach(btn => {
@@ -958,17 +911,12 @@
     serviceSelect?.addEventListener('change', refreshMessageSafe);
     [nameEl, dateEl, timeEl, hintEl].forEach(el => el?.addEventListener('input', refreshMessageSafe));
 
-    // language
-    langBtns.forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
-    setLang(getLang());
-
     // quick texts
     const iso = (d) => {
       const pad = (n) => String(n).padStart(2, '0');
       return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     };
     function applyQuick(key){
-      const lang = getLang();
       const now = new Date();
       if (key === 'today' && dateEl) dateEl.value = iso(now);
       if (key === 'tomorrow' && dateEl){
@@ -977,7 +925,7 @@
         dateEl.value = iso(d);
       }
       if (key === 'after17' && timeEl) timeEl.value = '17:00';
-      if (key === 'anytime' && hintEl) hintEl.value = (lang === 'ar') ? 'أنا مرن/مرنة بالوقت' : 'Ich bin flexibel';
+      if (key === 'anytime' && hintEl) hintEl.value = 'Ich bin flexibel';
       refreshMessageSafe();
     }
     quickBtns.forEach(b => b.addEventListener('click', () => applyQuick(b.dataset.quick)));
@@ -985,7 +933,7 @@
     // submit => WhatsApp
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const text = msgEl.value || defaultMessage(selectedService(), getLang());
+      const text = msgEl.value || defaultMessage(selectedService());
       const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank', 'noopener');
       closeModal();

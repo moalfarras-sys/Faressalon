@@ -12,7 +12,13 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="de_DE" />
   <meta property="og:image" content="assets/images/hero-bg.jpg" />
+  <meta property="og:url" content="" id="ogUrl" />
   <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="" id="canonicalUrl" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=yes" />
   <link rel="preload" as="image" href="assets/images/hero-bg.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -571,6 +577,44 @@
     details.faqItem summary::-webkit-details-marker{display:none}
     details.faqItem p{margin-top:10px;color:rgba(255,255,255,.74);font-weight:700;line-height:1.55}
 
+    /* before/after */
+    .ba{margin-top:18px;border-radius:var(--r2);border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      box-shadow:var(--shadow2);overflow:hidden;position:relative
+    }
+    .ba__wrap{position:relative;height:360px}
+    @media (max-width:720px){.ba__wrap{height:260px}}
+    .ba__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02)}
+    .ba__top{position:absolute;inset:0;overflow:hidden;width:50%}
+    .ba__handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(215,184,90,.85);box-shadow:0 0 0 6px rgba(215,184,90,.10)}
+    .ba__handle::before{content:"↔";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:44px;height:44px;border-radius:16px;display:grid;place-items:center;
+      background:rgba(10,10,14,.55);backdrop-filter: blur(var(--blur));
+      border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.92);font-weight:900
+    }
+    .ba__controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.08)}
+    .ba__label{font-weight:900;color:rgba(255,255,255,.86)}
+    .ba__range{width:100%}
+
+    /* legal */
+    .legal{margin-top:18px;display:grid;gap:10px}
+    .legalBox{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);backdrop-filter: blur(var(--blur))}
+    .legalBox h3{margin:0 0 8px;font-family:Poppins, system-ui, sans-serif;color:rgba(255,255,255,.95)}
+    .legalBox p, .legalBox li{color:rgba(255,255,255,.74);font-weight:700;line-height:1.55}
+    .legalBox ul{margin:10px 0 0;padding-left:18px}
+
+    /* sticky open badge on mobile */
+    .openMini{position:fixed;left:12px;right:12px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:1299;
+      display:none;align-items:center;justify-content:center;gap:8px;
+      padding:10px 12px;border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(var(--blur));
+      color:rgba(255,255,255,.88);font-weight:900;font-size:12px;
+    }
+    @media (max-width:720px){.openMini{display:flex}}
+    @media (max-width:420px){.openMini{bottom:calc(110px + env(safe-area-inset-bottom))}}
+
 </style>
 </head>
 <body>
@@ -911,6 +955,21 @@
           <p class="lead">Ein Blick in den Salon – sauber, modern und ready für deinen nächsten Look.</p>
         </div>
 
+        <div class="ba reveal" aria-label="Vorher / Nachher">
+          <div class="ba__wrap" id="baWrap">
+            <img class="ba__img" src="assets/images/gallery-06.jpg" alt="Vorher" loading="lazy" decoding="async" />
+            <div class="ba__top" id="baTop">
+              <img class="ba__img" src="assets/images/hero-bg.jpg" alt="Nachher" loading="lazy" decoding="async" />
+            </div>
+            <div class="ba__handle" id="baHandle" aria-hidden="true"></div>
+          </div>
+          <div class="ba__controls">
+            <span class="ba__label">Vorher</span>
+            <input class="ba__range" id="baRange" type="range" min="0" max="100" value="50" aria-label="Vorher/Nachher Regler" />
+            <span class="ba__label">Nachher</span>
+          </div>
+        </div>
+
         <div class="slider reveal" id="gallerySlider" aria-label="Galerie Slider">
           <img class="slider__img" id="sliderImg" src="assets/images/hero-bg.jpg" alt="Salon" loading="eager" decoding="async" />
           <div class="slider__overlay">
@@ -1001,6 +1060,63 @@
       </div>
     </section>
 
+    <section class="section section--dark" id="quality">
+      <div class="container split">
+        <div class="reveal">
+          <h2>Hygiene & Qualität</h2>
+          <p class="lead">Sauber, präzise und mit Gefühl fürs Detail – damit du dich wohlfühlst und der Look sitzt.</p>
+          <ul class="bullets" aria-label="Qualität">
+            <li>Saubere Linien & exakte Übergänge</li>
+            <li>Hygiene & frische Werkzeuge</li>
+            <li>Ehrliche Beratung</li>
+            <li>Entspannte Atmosphäre</li>
+          </ul>
+          <div class="actions" style="margin-top:14px;justify-content:flex-start">
+            <button class="btn btn--primary js-booking-open" type="button">Termin anfragen</button>
+            <a class="btn btn--ghost" href="#preise">Preise</a>
+          </div>
+        </div>
+        <div class="frame reveal" aria-hidden="true">
+          <div class="frame__top">CLEAN • DETAIL • PREMIUM</div>
+          <div class="frame__mid">
+            <div class="line"></div><div class="seal">✦</div><div class="line"></div>
+          </div>
+          <div class="frame__bottom">Black • Gold • Glass</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="legal">
+      <div class="container">
+        <div class="section__header reveal">
+          <h2>Impressum & Datenschutz</h2>
+          <p class="lead">Rechtliches (DE) – kurz, klar und auf einer Seite.</p>
+        </div>
+
+        <div class="legal">
+          <div class="legalBox reveal" id="impressum">
+            <h3>Impressum</h3>
+            <p><b>Friseurssalon Fares</b><br>Mittelstraße 22, 58095 Hagen<br>Deutschland</p>
+            <p><b>Kontakt</b><br>Telefon/WhatsApp: +49 176 31321634</p>
+            <p><b>Öffnungszeiten</b><br>Mo–Sa: 09:00–19:00</p>
+            <p><b>Hinweis</b><br>Angaben ohne Gewähr. Änderungen der Öffnungszeiten (z. B. an Feiertagen) möglich.</p>
+          </div>
+
+          <div class="legalBox reveal" id="datenschutz">
+            <h3>Datenschutzerklärung (Kurzfassung)</h3>
+            <p>Diese Website ist eine einfache Informationsseite. Wir speichern keine Nutzerkonten.</p>
+            <ul>
+              <li><b>WhatsApp/Telefon</b>: Wenn du uns kontaktierst, verarbeiten wir deine Nachricht/Anrufdaten zur Bearbeitung deiner Anfrage.</li>
+              <li><b>Google Maps Links</b>: Beim Klick wirst du zu Google weitergeleitet (dort gelten deren Datenschutzbedingungen).</li>
+              <li><b>Server/Hosting</b>: Beim Aufruf können technisch notwendige Daten (z. B. IP-Adresse, Datum/Uhrzeit) in Server-Logs anfallen.</li>
+              <li><b>Cookies/Tracking</b>: Wir setzen kein eigenes Tracking und keine Marketing-Cookies ein.</li>
+            </ul>
+            <p><b>Deine Rechte</b>: Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch. Kontaktiere uns dafür über die Kontaktdaten im Impressum.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="kontakt">
   <div class="container">
     <div class="section__header reveal">
@@ -1039,6 +1155,11 @@
 
   <div class="bookingFab" aria-label="Schnellbuchung">
     <button class="btn btn--primary js-booking-open" type="button">Termin buchen</button>
+  </div>
+
+  <div class="openMini" id="openMini" aria-live="polite">
+    <span class="openDot" id="openDotMini" aria-hidden="true"></span>
+    <span id="openTextMini">Öffnungszeiten: Mo–Sa 09:00–19:00</span>
   </div>
 
   <div class="ctaBar" aria-label="Schnellaktionen">
@@ -1108,6 +1229,13 @@
           <textarea class="textarea" id="bookingMessage" dir="auto"></textarea>
         </div>
 
+        <div class="actions" style="justify-content:flex-start">
+          <button class="btn btn--primary" type="submit">WhatsApp öffnen</button>
+          <button class="btn btn--ghost" type="button" id="icsBtn">In Kalender speichern (.ics)</button>
+          <a class="btn btn--ghost" href="#preise">Preise</a>
+          <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
+        </div>
+
         <div class="field">
           <div class="label">Schnelltexte</div>
           <div class="quick" aria-label="Schnelltexte">
@@ -1116,12 +1244,6 @@
             <button class="pill js-quick" type="button" data-quick="after17">Nach 17:00</button>
             <button class="pill js-quick" type="button" data-quick="anytime">Flexibel</button>
           </div>
-        </div>
-
-        <div class="actions" style="justify-content:flex-start">
-          <button class="btn btn--primary" type="submit">WhatsApp öffnen</button>
-          <a class="btn btn--ghost" href="#preise">Preise</a>
-          <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
         </div>
       </form>
     </div>
@@ -1138,6 +1260,15 @@
   <script>
     // year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // set canonical + og:url at runtime (no hardcoded domain)
+    try{
+      const href = window.location.origin + window.location.pathname.replace(/index\.html$/, '');
+      const can = document.getElementById('canonicalUrl');
+      const og = document.getElementById('ogUrl');
+      if (can) can.setAttribute('href', href);
+      if (og) og.setAttribute('content', href);
+    }catch{}
 
     // mobile nav
     const toggle = document.querySelector('.navToggle');
@@ -1220,6 +1351,7 @@
       };
       set('openDot', 'openText');
       set('openDotHero', 'openTextHero');
+      set('openDotMini', 'openTextMini');
     }
     setOpenStatus();
     setInterval(setOpenStatus, 60_000);
@@ -1236,6 +1368,7 @@
     const hintEl = document.getElementById('bookingHint');
     const peopleEl = document.getElementById('bookingPeople');
     const durationEl = document.getElementById('bookingDuration');
+    const icsBtn = document.getElementById('icsBtn');
     const quickBtns = Array.from(document.querySelectorAll('.js-quick'));
     const topGrid = document.getElementById('topServicesGrid');
     const sliderImg = document.getElementById('sliderImg');
@@ -1248,6 +1381,23 @@
     const normalize = (s) => String(s || '').replace(/\s+/g, ' ').trim();
     const fmtDate = (v) => v ? v : '';
     const fmtTime = (v) => v ? v : '';
+    const serviceDurationMin = {
+      'Haarschnitt': '≈ 30 Min',
+      'Bart': '≈ 15–20 Min',
+      'Bart + Haarschnitt': '≈ 45 Min',
+      'Kinderhaarschnitt': '≈ 25 Min',
+      'Haarentfernung (Faden)': '≈ 10–15 Min',
+      'Haarentfernung (Wachs)': '≈ 10 Min',
+      'Haare waschen (extra)': '≈ 5 Min',
+      'Haarschnitt (kurz)': '≈ 40 Min',
+      'Haarschnitt (lang)': '≈ 60 Min',
+      'Ansatz färben': '≈ 60–90 Min',
+      'Komplett färben': '≈ 90–120 Min',
+      'Balayage': '≈ 120–180 Min',
+      'Strähnen': '≈ 120–180 Min',
+      'Augenbrauen färben': '≈ 10 Min',
+      'Herren‑Färben': '≈ 30–60 Min'
+    };
 
     // German-only site: no language switch
 
@@ -1277,12 +1427,14 @@
       const people = normalize(peopleEl?.value);
       const duration = normalize(durationEl?.value);
       const when = normalize([date, time].filter(Boolean).join(' '));
+      const est = serviceDurationMin[service.title] || '';
 
       const parts = [
         'Hallo Friseurssalon Fares,',
         '',
         `Ich möchte einen Termin für: ${service.title} (${service.price}).`,
         service.group ? `Bereich: ${service.group}` : '',
+        est ? `Dauer (ca.): ${est}` : '',
         name ? `Name: ${name}` : '',
         people ? `Personen: ${people}` : '',
         duration ? `Dauer: ${duration}` : '',
@@ -1393,6 +1545,15 @@
     // inject per-service button
     document.querySelectorAll('.priceCard').forEach(card => {
       const title = normalize(card.querySelector('h4')?.textContent);
+      const dur = serviceDurationMin[title];
+      if (dur){
+        const p = document.createElement('p');
+        p.style.margin = '0 0 10px';
+        p.style.color = 'rgba(255,255,255,.70)';
+        p.style.fontWeight = '800';
+        p.textContent = `Dauer: ${dur}`;
+        card.insertBefore(p, card.querySelector('.price'));
+      }
       const actions = document.createElement('div');
       actions.className = 'serviceActions';
       const b = document.createElement('button');
@@ -1470,6 +1631,92 @@
       refreshMessageSafe();
     }
     quickBtns.forEach(b => b.addEventListener('click', () => applyQuick(b.dataset.quick)));
+
+    // price group CTA
+    document.querySelectorAll('.priceGroup').forEach(group => {
+      const label = normalize(group.querySelector('h3')?.textContent);
+      const bar = document.createElement('div');
+      bar.className = 'serviceActions';
+      bar.style.marginTop = '14px';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn btn--primary btn--sm js-booking-open';
+      btn.textContent = `Termin für ${label} anfragen`;
+      btn.addEventListener('click', () => openModal(label === 'Farbe & Styling' ? 'Ansatz färben' : (label === 'Damen' ? 'Haarschnitt (kurz)' : 'Haarschnitt')));
+      const link = document.createElement('a');
+      link.className = 'btn btn--ghost btn--sm';
+      link.href = '#buchung';
+      link.textContent = 'Buchung';
+      bar.appendChild(btn);
+      bar.appendChild(link);
+      group.appendChild(bar);
+    });
+
+    // before/after slider
+    const baRange = document.getElementById('baRange');
+    const baTop = document.getElementById('baTop');
+    const baHandle = document.getElementById('baHandle');
+    function setBA(v){
+      const pct = Math.max(0, Math.min(100, Number(v)));
+      if (baTop) baTop.style.width = pct + '%';
+      if (baHandle) baHandle.style.left = pct + '%';
+    }
+    baRange?.addEventListener('input', () => setBA(baRange.value));
+    setBA(50);
+
+    // calendar (.ics)
+    function downloadICS(){
+      const date = dateEl?.value;
+      const time = timeEl?.value;
+      if (!date || !time){
+        alert('Bitte Datum und Uhrzeit auswählen (für den Kalender).');
+        return;
+      }
+      const svc = selectedService();
+      const startLocal = `${date}T${time}:00`;
+      const dt = new Date(startLocal);
+      const end = new Date(dt.getTime() + 45*60*1000); // default 45 min
+      const fmt = (d) => d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+      const dtStart = fmt(dt);
+      const dtEnd = fmt(end);
+      const uid = `fares-${Date.now()}@local`;
+      const summary = `Friseurssalon Fares: ${svc.title}`;
+      const location = 'Mittelstraße 22, 58095 Hagen';
+      const desc = (msgEl?.value || '').replace(/\n/g, '\\n');
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Friseurssalon Fares//Booking//DE',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTAMP:${fmt(new Date())}`,
+        `DTSTART:${dtStart}`,
+        `DTEND:${dtEnd}`,
+        `SUMMARY:${summary}`,
+        `LOCATION:${location}`,
+        `DESCRIPTION:${desc}`,
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\\r\\n');
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'termin-fares.ics';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    icsBtn?.addEventListener('click', downloadICS);
+
+    // service worker
+    if ('serviceWorker' in navigator){
+      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    }
 
     // submit => WhatsApp
     form?.addEventListener('submit', (e) => {

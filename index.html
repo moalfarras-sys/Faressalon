@@ -220,7 +220,6 @@
 /* --- Mobile Optimierung (ab 350px) --- */
 @media (max-width: 420px){
   section{padding:56px 6% !important;}
-  .glass{padding:22px !important;border-radius:18px !important;}
   .hero{padding:26px !important;}
   .hero img{width:128px !important;}
   h1{font-size:clamp(30px,10vw,46px) !important; line-height:1.05 !important;}
@@ -271,6 +270,53 @@
     .v{word-break:break-word}
     .contactActions{justify-content:flex-start;margin-top:14px;flex-wrap:wrap;gap:10px}
 
+    /* booking (WhatsApp) */
+    .btn--sm{padding:10px 12px;border-radius:12px;font-size:13px}
+    .serviceActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .bookingFab{position:fixed;right:18px;bottom:18px;z-index:1200;display:flex;gap:10px;align-items:center}
+    .bookingFab .btn{box-shadow:0 18px 40px rgba(0,0,0,.55)}
+    @media (max-width:620px){.bookingFab{left:12px;right:12px;bottom:12px}.bookingFab .btn{width:100%}}
+
+    .modal[hidden]{display:none !important}
+    .modal{position:fixed;inset:0;z-index:1400;display:grid;place-items:center;padding:18px;
+      background:rgba(0,0,0,.72);backdrop-filter: blur(14px);
+    }
+    .modal__dialog{width:min(720px,94vw);border-radius:26px;padding:18px 18px 16px;position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border:1px solid rgba(212,175,55,.35);box-shadow:0 26px 80px rgba(0,0,0,.72);
+      overflow:hidden;
+    }
+    .modal__dialog::before{content:"";position:absolute;inset:-80px -100px auto auto;width:340px;height:340px;
+      background:radial-gradient(circle, rgba(212,175,55,.22), transparent 62%);transform:rotate(12deg);
+      pointer-events:none;
+    }
+    .modal__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .modal__title{font-family:Poppins, system-ui, sans-serif;font-weight:800;color:var(--gold);font-size:22px;margin:2px 0 0}
+    .modal__close{width:44px;height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.35);color:rgba(255,255,255,.92);cursor:pointer;font-size:18px;font-weight:900;
+    }
+    .modal__close:hover{border-color:rgba(212,175,55,.35)}
+
+    .form{display:grid;gap:12px;margin-top:10px}
+    .field{display:grid;gap:8px}
+    .label{font-weight:900;color:rgba(255,255,255,.86);font-size:13px;letter-spacing:.3px}
+    .input,.select,.textarea{width:100%;padding:12px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.28);color:rgba(255,255,255,.92);outline:none;
+    }
+    .input:focus,.select:focus,.textarea:focus{border-color:rgba(212,175,55,.42);box-shadow:0 0 0 4px rgba(212,175,55,.12)}
+    .textarea{min-height:96px;resize:vertical}
+    .grid2{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .grid2 .col6{grid-column:span 6}
+    .grid2 .col4{grid-column:span 4}
+    @media (max-width:720px){.grid2 .col6,.grid2 .col4{grid-column:span 12}}
+    .helper{color:rgba(255,255,255,.68);font-weight:700;font-size:13px}
+    .quick{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{padding:10px 12px;border-radius:999px;border:1px solid rgba(212,175,55,.30);
+      background:rgba(0,0,0,.32);color:rgba(255,255,255,.88);font-weight:900;font-size:13px;cursor:pointer;
+    }
+    .pill:hover{border-color:rgba(212,175,55,.55)}
+
 </style>
 </head>
 <body>
@@ -291,6 +337,7 @@
       </button>
 
       <nav class="nav" aria-label="Navigation">
+        <a href="#buchung">Buchung</a>
         <a href="#preise">Preise</a>
         <a href="#ueber">Über uns</a>
         <a href="#galerie">Galerie</a>
@@ -319,6 +366,42 @@
           <div class="stat" role="listitem"><b>Hygiene</b><span>Sauber & frisch</span></div>
           <div class="stat" role="listitem"><b>Details</b><span>Konturen on point</span></div>
           <div class="stat" role="listitem"><b>Service</b><span>Locker & freundlich</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="buchung">
+      <div class="container split">
+        <div class="reveal">
+          <h2>Termin buchen</h2>
+          <p class="lead">
+            Schnell & einfach über WhatsApp: Leistung auswählen, Wunschtermin schicken – wir bestätigen dir den Termin so schnell wie möglich.
+          </p>
+
+          <div class="quick" aria-label="Schnellauswahl">
+            <button class="pill js-booking-open" type="button" data-preset="Haarschnitt">Haarschnitt</button>
+            <button class="pill js-booking-open" type="button" data-preset="Bart">Bart</button>
+            <button class="pill js-booking-open" type="button" data-preset="Bart + Haarschnitt">Komplett</button>
+            <button class="pill js-booking-open" type="button" data-preset="Haarschnitt (kurz)">Damen kurz</button>
+          </div>
+
+          <div class="actions" style="margin-top:14px;justify-content:flex-start">
+            <button class="btn btn--primary js-booking-open" type="button">Buchung öffnen</button>
+            <a class="btn btn--ghost" href="#preise">Preise & Leistungen</a>
+            <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
+          </div>
+
+          <div class="mini">
+            <b>Tipp:</b> Walk‑in ist möglich – für sichere Zeiten lieber kurz per WhatsApp anfragen.
+          </div>
+        </div>
+
+        <div class="frame reveal" aria-hidden="true">
+          <div class="frame__top">BUCHUNG • WHATSAPP</div>
+          <div class="frame__mid">
+            <div class="line"></div><div class="seal">✦</div><div class="line"></div>
+          </div>
+          <div class="frame__bottom">Service • Termin • Bestätigung</div>
         </div>
       </div>
     </section>
@@ -597,21 +680,59 @@
 </section>
   </main>
 
-  
-<section>
- <div class="glass">
-  <h2>Kontakt</h2>
+  <div class="bookingFab" aria-label="Schnellbuchung">
+    <button class="btn btn--primary js-booking-open" type="button">Termin buchen</button>
+  </div>
 
-  <p><strong>Adresse:</strong><br>Mittelstraße 22, 58095 Hagen</p>
-  <p><strong>Anfahrt:</strong><br>Rathaus-Galerie Hagen – 1. Etage, neben MediaMarkt & TEDi</p>
-  <p><strong>Telefon & WhatsApp:</strong><br>
-    <a href="tel:004917631321634" style="color:#d4af37;text-decoration:none;font-weight:700">+49 176 31321634</a><br>
-    <a href="https://wa.me/4917631321634" style="color:#d4af37;text-decoration:none;font-weight:700">WhatsApp Chat starten</a>
-  </p>
-  <p><strong>Öffnungszeiten:</strong><br>Mo–Sa: 09:00 – 19:00 Uhr<br>Sonn- & gesetzliche Feiertage geschlossen.<br>An Feiertagen können die Öffnungszeiten abweichen.</p>
+  <div class="modal" id="bookingModal" hidden>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+      <div class="modal__head">
+        <div>
+          <div class="modal__title" id="bookingTitle">Termin anfragen (WhatsApp)</div>
+          <div class="helper">Leistung auswählen – wir antworten schnell.</div>
+        </div>
+        <button class="modal__close js-booking-close" type="button" aria-label="Schließen">✕</button>
+      </div>
 
- </div>
-</section>
+      <form class="form" id="bookingForm">
+        <div class="field">
+          <div class="label">Leistung</div>
+          <select class="select" id="bookingService" required></select>
+        </div>
+
+        <div class="grid2">
+          <div class="field col6">
+            <div class="label">Name (optional)</div>
+            <input class="input" id="bookingName" autocomplete="name" placeholder="z. B. Ali" />
+          </div>
+          <div class="field col6">
+            <div class="label">Wunschtermin (optional)</div>
+            <input class="input" id="bookingDate" type="date" />
+          </div>
+          <div class="field col6">
+            <div class="label">Uhrzeit (optional)</div>
+            <input class="input" id="bookingTime" type="time" />
+          </div>
+          <div class="field col6">
+            <div class="label">Hinweis (optional)</div>
+            <input class="input" id="bookingHint" placeholder="z. B. heute nach 17 Uhr" />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="label">Nachricht (du kannst sie anpassen)</div>
+          <textarea class="textarea" id="bookingMessage"></textarea>
+        </div>
+
+        <div class="actions" style="justify-content:flex-start">
+          <button class="btn btn--primary" type="submit">WhatsApp öffnen</button>
+          <a class="btn btn--ghost" href="#preise">Preise</a>
+          <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
 <footer class="footer"><span style="display:none" data-version="v3-2025-12-18 14:22"></span>
     <div class="container footer__inner">
       <div>© <span id="year"></span> Friseurssalon Fares</div>
@@ -654,6 +775,129 @@
     }, { threshold: 0.12 });
 
     items.forEach(el => io.observe(el));
+
+    // WhatsApp booking
+    const WA_NUMBER = '4917631321634';
+    const modal = document.getElementById('bookingModal');
+    const form = document.getElementById('bookingForm');
+    const serviceSelect = document.getElementById('bookingService');
+    const msgEl = document.getElementById('bookingMessage');
+    const nameEl = document.getElementById('bookingName');
+    const dateEl = document.getElementById('bookingDate');
+    const timeEl = document.getElementById('bookingTime');
+    const hintEl = document.getElementById('bookingHint');
+
+    const normalize = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+    const fmtDate = (v) => v ? v : '';
+    const fmtTime = (v) => v ? v : '';
+
+    function buildServiceList(){
+      const cards = Array.from(document.querySelectorAll('.priceCard'));
+      const services = [];
+      cards.forEach(card => {
+        const group = normalize(card.closest('.priceGroup')?.querySelector('h3')?.textContent);
+        const title = normalize(card.querySelector('h4')?.textContent);
+        const price = normalize(card.querySelector('.price')?.innerText);
+        if (!title || !price) return;
+        services.push({ group, title, price });
+      });
+      return services;
+    }
+
+    function serviceLabel(s){
+      const g = s.group ? `${s.group} • ` : '';
+      return `${g}${s.title} — ${s.price}`;
+    }
+
+    function defaultMessage(service){
+      const parts = [
+        'Hallo Friseurssalon Fares 👋',
+        '',
+        `Ich möchte einen Termin für: ${service.title} (${service.price}).`,
+        service.group ? `Bereich: ${service.group}` : '',
+        nameEl?.value ? `Name: ${normalize(nameEl.value)}` : '',
+        (dateEl?.value || timeEl?.value) ? `Wunschtermin: ${fmtDate(dateEl.value)} ${fmtTime(timeEl.value)}`.trim() : '',
+        hintEl?.value ? `Hinweis: ${normalize(hintEl.value)}` : '',
+        '',
+        'Danke!'
+      ].filter(Boolean);
+      return parts.join('\n');
+    }
+
+    function openModal(presetTitle){
+      if (!modal) return;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+
+      if (presetTitle){
+        const opt = Array.from(serviceSelect.options).find(o => normalize(o.dataset.title) === normalize(presetTitle));
+        if (opt) serviceSelect.value = opt.value;
+      }
+
+      refreshMessageSafe();
+      serviceSelect.focus();
+    }
+
+    function closeModal(){
+      if (!modal) return;
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    // populate services
+    const services = buildServiceList();
+    serviceSelect.innerHTML = services.map((s, idx) => {
+      const value = encodeURIComponent(JSON.stringify(s));
+      return `<option value="${value}" data-title="${s.title}">${serviceLabel(s)}</option>`;
+    }).join('');
+
+    // Fix encoded JSON selection (decode on read)
+    function selectedService(){
+      try{
+        return JSON.parse(decodeURIComponent(serviceSelect.value));
+      }catch{ return services[0] || { title:'', price:'', group:'' }; }
+    }
+    function refreshMessageSafe(){ msgEl.value = defaultMessage(selectedService()); }
+
+    // open handlers
+    document.querySelectorAll('.js-booking-open').forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.getAttribute('data-preset')));
+    });
+    document.querySelectorAll('.js-booking-close').forEach(btn => btn.addEventListener('click', closeModal));
+    modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal?.hidden) closeModal(); });
+
+    // inject per-service button
+    document.querySelectorAll('.priceCard').forEach(card => {
+      const title = normalize(card.querySelector('h4')?.textContent);
+      const actions = document.createElement('div');
+      actions.className = 'serviceActions';
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn btn--primary btn--sm';
+      b.textContent = 'Termin via WhatsApp';
+      b.addEventListener('click', () => openModal(title));
+      const a = document.createElement('a');
+      a.className = 'btn btn--ghost btn--sm';
+      a.href = '#buchung';
+      a.textContent = 'Buchung';
+      actions.appendChild(b);
+      actions.appendChild(a);
+      card.appendChild(actions);
+    });
+
+    // message live update
+    serviceSelect?.addEventListener('change', refreshMessageSafe);
+    [nameEl, dateEl, timeEl, hintEl].forEach(el => el?.addEventListener('input', refreshMessageSafe));
+
+    // submit => WhatsApp
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = msgEl.value || defaultMessage(selectedService());
+      const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank', 'noopener');
+      closeModal();
+    });
   </script>
 </body>
 </html>

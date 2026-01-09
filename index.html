@@ -374,7 +374,8 @@
 
     /* mobile CTA bar */
     .ctaBar{position:fixed;left:0;right:0;bottom:0;z-index:1300;padding:10px 12px;
-      background:rgba(0,0,0,.72);backdrop-filter: blur(14px);border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(10,10,14,.44), rgba(10,10,14,.84));
+      backdrop-filter: blur(var(--blur));border-top:1px solid rgba(255,255,255,.08);
       display:none;
     }
     .ctaBar__inner{width:min(1120px,92%);margin-inline:auto;display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
@@ -388,7 +389,7 @@
 
     .modal[hidden]{display:none !important}
     .modal{position:fixed;inset:0;z-index:1400;display:grid;place-items:center;padding:18px;
-      background:rgba(0,0,0,.72);backdrop-filter: blur(14px);
+      background:rgba(0,0,0,.72);backdrop-filter: blur(var(--blur));
     }
     .modal__dialog{width:min(720px,94vw);border-radius:26px;padding:18px 18px 16px;position:relative;
       background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
@@ -787,15 +788,27 @@
           <p class="lead">Ein Blick in den Salon – sauber, modern und ready für deinen nächsten Look.</p>
         </div>
 
+        <div class="slider reveal" id="gallerySlider" aria-label="Galerie Slider">
+          <img class="slider__img" id="sliderImg" src="assets/images/hero-bg.jpg" alt="Salon" loading="eager" decoding="async" />
+          <div class="slider__overlay">
+            <div class="slider__cap" id="sliderCap">Galerie</div>
+            <div class="slider__controls">
+              <button class="slider__btn" type="button" id="sliderPrev" aria-label="Vorheriges Bild">‹</button>
+              <div class="dots" id="sliderDots" aria-label="Bildpunkte"></div>
+              <button class="slider__btn" type="button" id="sliderNext" aria-label="Nächstes Bild">›</button>
+            </div>
+          </div>
+        </div>
+
         <div class="gallery">
-          <div class="tile reveal"><img alt="Salon Foto 1" src="assets/images/logo.jpg"></div>
-          <div class="tile reveal"><img alt="Salon Foto 2" src="assets/images/gallery-01.jpg"></div>
-          <div class="tile reveal"><img alt="Salon Foto 3" src="assets/images/gallery-02.jpg"></div>
+          <div class="tile reveal"><img alt="Salon Foto 1" src="assets/images/hero-bg.jpg" loading="lazy" decoding="async"></div>
+          <div class="tile reveal"><img alt="Salon Foto 2" src="assets/images/gallery-01.jpg" loading="lazy" decoding="async"></div>
+          <div class="tile reveal"><img alt="Salon Foto 3" src="assets/images/gallery-02.jpg" loading="lazy" decoding="async"></div>
         
-          <div class="tile reveal tile--wide"><img alt="Salon & Team" src="assets/images/gallery-03.jpg" /></div>
-          <div class="tile reveal"><img alt="Innenbereich" src="assets/images/gallery-04.jpg" /></div>
-          <div class="tile reveal tile--wide"><img alt="Produkte" src="assets/images/gallery-05.jpg" /></div>
-          <div class="tile reveal"><img alt="Salon Logo" src="assets/images/gallery-06.jpg" /></div>
+          <div class="tile reveal tile--wide"><img alt="Salon & Team" src="assets/images/gallery-03.jpg" loading="lazy" decoding="async" /></div>
+          <div class="tile reveal"><img alt="Innenbereich" src="assets/images/gallery-04.jpg" loading="lazy" decoding="async" /></div>
+          <div class="tile reveal tile--wide"><img alt="Produkte" src="assets/images/gallery-05.jpg" loading="lazy" decoding="async" /></div>
+          <div class="tile reveal"><img alt="Salon Logo" src="assets/images/gallery-06.jpg" loading="lazy" decoding="async" /></div>
         </div>
       </div>
     </section>
@@ -823,6 +836,44 @@
             <p>„Konturen immer clean. Bin seit Monaten nur noch hier.“</p>
             <div class="who">— Alex</div>
           </article>
+        </div>
+
+        <div class="actions reveal" style="margin-top:14px">
+          <a class="btn btn--primary" href="https://www.google.com/maps/search/?api=1&query=Friseurssalon%20Fares%20Hagen" target="_blank" rel="noopener">Google Bewertungen ansehen</a>
+          <button class="btn btn--ghost js-booking-open" type="button">Termin anfragen</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section__header reveal">
+          <h2>FAQ</h2>
+          <p class="lead">Kurz & ehrlich – damit du direkt weißt, wie’s läuft.</p>
+        </div>
+
+        <div class="faq">
+          <details class="faqItem reveal">
+            <summary>Kann ich einfach vorbeikommen (Walk‑in)?</summary>
+            <p>Ja, Walk‑in ist möglich. Für sichere Zeiten empfehlen wir aber kurz per WhatsApp zu fragen – dann bekommst du schnell eine Rückmeldung.</p>
+          </details>
+          <details class="faqItem reveal">
+            <summary>Wie buche ich am schnellsten?</summary>
+            <p>Am schnellsten über WhatsApp: Leistung auswählen, Wunschtermin schicken – wir bestätigen dir den Termin so schnell wie möglich.</p>
+          </details>
+          <details class="faqItem reveal">
+            <summary>Wo genau seid ihr?</summary>
+            <p>Mittelstraße 22, 58095 Hagen – Rathaus‑Galerie (1. OG), neben MediaMarkt & TEDI.</p>
+          </details>
+          <details class="faqItem reveal">
+            <summary>Warum stehen bei manchen Preisen „ab“?</summary>
+            <p>„Ab“‑Preise können je nach Haarlänge, Material und Aufwand variieren. Vor Ort bekommst du kurz eine ehrliche Einschätzung.</p>
+          </details>
+        </div>
+
+        <div class="actions reveal" style="margin-top:14px">
+          <a class="btn btn--primary" href="#buchung">Buchung öffnen</a>
+          <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
         </div>
       </div>
     </section>
@@ -865,6 +916,14 @@
 
   <div class="bookingFab" aria-label="Schnellbuchung">
     <button class="btn btn--primary js-booking-open" type="button">Termin buchen</button>
+  </div>
+
+  <div class="ctaBar" aria-label="Schnellaktionen">
+    <div class="ctaBar__inner">
+      <a class="btn btn--primary" href="https://wa.me/4917631321634" target="_blank" rel="noopener">WhatsApp</a>
+      <button class="btn btn--ghost js-booking-open" type="button">Termin</button>
+      <a class="btn btn--ghost" href="https://www.google.com/maps?q=Mittelstraße+22+58095+Hagen" target="_blank" rel="noopener">Route</a>
+    </div>
   </div>
 
   <div class="modal" id="bookingModal" hidden>
@@ -1018,6 +1077,12 @@
     const timeEl = document.getElementById('bookingTime');
     const hintEl = document.getElementById('bookingHint');
     const quickBtns = Array.from(document.querySelectorAll('.js-quick'));
+    const topGrid = document.getElementById('topServicesGrid');
+    const sliderImg = document.getElementById('sliderImg');
+    const sliderCap = document.getElementById('sliderCap');
+    const sliderDots = document.getElementById('sliderDots');
+    const sliderPrev = document.getElementById('sliderPrev');
+    const sliderNext = document.getElementById('sliderNext');
 
     const normalize = (s) => String(s || '').replace(/\s+/g, ' ').trim();
     const fmtDate = (v) => v ? v : '';
@@ -1091,6 +1156,50 @@
       return `<option value="${value}" data-title="${s.title}">${serviceLabel(s)}</option>`;
     }).join('');
 
+    // top services (auto from prices)
+    function findService(title){
+      return services.find(s => normalize(s.title) === normalize(title));
+    }
+    function renderTop(){
+      if (!topGrid) return;
+      const picks = [
+        findService('Haarschnitt'),
+        findService('Bart'),
+        findService('Bart + Haarschnitt')
+      ].filter(Boolean);
+      const fallback = services.slice(0, 3);
+      const list = (picks.length ? picks : fallback).slice(0, 3);
+
+      const iconMap = {
+        'Haarschnitt': '✂',
+        'Bart': '🧔',
+        'Bart + Haarschnitt': '⚡'
+      };
+
+      topGrid.innerHTML = list.map((s, i) => {
+        const icon = iconMap[s.title] || '✦';
+        const featured = i === 0 ? 'featured' : '';
+        return `
+          <article class="card ${featured}">
+            <div class="icon" aria-hidden="true">${icon}</div>
+            <h3>${s.title}</h3>
+            <p>${s.group ? `${s.group} • ` : ''}Schnell, sauber und auf den Punkt.</p>
+            <div class="price"><b>${s.price.replace('€','').trim()}</b> €</div>
+            <div class="serviceActions">
+              <button class="btn btn--primary btn--sm js-booking-open" type="button" data-preset="${s.title}">Termin via WhatsApp</button>
+              <a class="btn btn--ghost btn--sm" href="#preise">Alle Preise</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // wire buttons inside injected cards
+      topGrid.querySelectorAll('.js-booking-open').forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.getAttribute('data-preset')));
+      });
+    }
+    renderTop();
+
     // Fix encoded JSON selection (decode on read)
     function selectedService(){
       try{
@@ -1129,6 +1238,30 @@
     // message live update
     serviceSelect?.addEventListener('change', refreshMessageSafe);
     [nameEl, dateEl, timeEl, hintEl].forEach(el => el?.addEventListener('input', refreshMessageSafe));
+
+    // gallery slider (from thumbnails)
+    const thumbs = Array.from(document.querySelectorAll('.gallery img'));
+    const slides = thumbs.map(img => ({ src: img.getAttribute('src'), alt: img.getAttribute('alt') || 'Galerie' }));
+    let slideIndex = 0;
+    function showSlide(i){
+      if (!slides.length || !sliderImg) return;
+      slideIndex = (i + slides.length) % slides.length;
+      const s = slides[slideIndex];
+      sliderImg.src = s.src;
+      sliderImg.alt = s.alt;
+      if (sliderCap) sliderCap.textContent = `${s.alt} (${slideIndex+1}/${slides.length})`;
+      if (sliderDots){
+        Array.from(sliderDots.children).forEach((d, idx) => d.setAttribute('aria-current', String(idx === slideIndex)));
+      }
+    }
+    if (sliderDots && slides.length){
+      sliderDots.innerHTML = slides.map((_, idx) => `<button class="dotBtn" type="button" aria-label="Bild ${idx+1}" aria-current="${idx===0}"></button>`).join('');
+      Array.from(sliderDots.children).forEach((btn, idx) => btn.addEventListener('click', () => showSlide(idx)));
+    }
+    sliderPrev?.addEventListener('click', () => showSlide(slideIndex - 1));
+    sliderNext?.addEventListener('click', () => showSlide(slideIndex + 1));
+    thumbs.forEach((img, idx) => img.addEventListener('click', () => showSlide(idx)));
+    showSlide(0);
 
     // quick texts
     const iso = (d) => {

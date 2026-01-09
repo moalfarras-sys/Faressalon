@@ -426,6 +426,10 @@
     }
     .pill{border-color:rgba(215,184,90,.30)}
     .pill:hover{border-color:rgba(215,184,90,.55)}
+    .pill[aria-pressed="true"]{background:rgba(215,184,90,.12);border-color:rgba(215,184,90,.55)}
+
+    /* price filter */
+    .filters{margin-top:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 
     /* (lang switch removed — site is German-only) */
 
@@ -595,6 +599,13 @@
     <div class="section__header reveal">
       <h2>Leistungen & Preise</h2>
       <p class="lead">Transparent, fair und direkt. Scroll einfach runter – alles übersichtlich nach Bereichen sortiert.</p>
+    </div>
+
+    <div class="filters reveal" aria-label="Preisfilter">
+      <button class="pill js-filter" type="button" data-filter="all" aria-pressed="true">Alle</button>
+      <button class="pill js-filter" type="button" data-filter="Herren" aria-pressed="false">Herren</button>
+      <button class="pill js-filter" type="button" data-filter="Damen" aria-pressed="false">Damen</button>
+      <button class="pill js-filter" type="button" data-filter="Farbe & Styling" aria-pressed="false">Farbe & Styling</button>
     </div>
 
     <div class="priceGroups">
@@ -959,6 +970,25 @@
             <div class="label">Hinweis (optional)</div>
             <input class="input" id="bookingHint" placeholder="z. B. heute nach 17 Uhr" />
           </div>
+          <div class="field col6">
+            <div class="label">Personen (optional)</div>
+            <select class="select" id="bookingPeople">
+              <option value="">—</option>
+              <option value="1">1 Person</option>
+              <option value="2">2 Personen</option>
+              <option value="3">3 Personen</option>
+              <option value="4">4 Personen</option>
+            </select>
+          </div>
+          <div class="field col6">
+            <div class="label">Dauer (optional)</div>
+            <select class="select" id="bookingDuration">
+              <option value="">—</option>
+              <option value="kurz">kurz</option>
+              <option value="standard">standard</option>
+              <option value="lang">lang</option>
+            </select>
+          </div>
         </div>
 
         <div class="field">
@@ -1076,6 +1106,8 @@
     const dateEl = document.getElementById('bookingDate');
     const timeEl = document.getElementById('bookingTime');
     const hintEl = document.getElementById('bookingHint');
+    const peopleEl = document.getElementById('bookingPeople');
+    const durationEl = document.getElementById('bookingDuration');
     const quickBtns = Array.from(document.querySelectorAll('.js-quick'));
     const topGrid = document.getElementById('topServicesGrid');
     const sliderImg = document.getElementById('sliderImg');
@@ -1083,6 +1115,7 @@
     const sliderDots = document.getElementById('sliderDots');
     const sliderPrev = document.getElementById('sliderPrev');
     const sliderNext = document.getElementById('sliderNext');
+    const filterBtns = Array.from(document.querySelectorAll('.js-filter'));
 
     const normalize = (s) => String(s || '').replace(/\s+/g, ' ').trim();
     const fmtDate = (v) => v ? v : '';
@@ -1113,6 +1146,8 @@
       const date = fmtDate(dateEl?.value);
       const time = fmtTime(timeEl?.value);
       const hint = normalize(hintEl?.value);
+      const people = normalize(peopleEl?.value);
+      const duration = normalize(durationEl?.value);
       const when = normalize([date, time].filter(Boolean).join(' '));
 
       const parts = [
@@ -1121,6 +1156,8 @@
         `Ich möchte einen Termin für: ${service.title} (${service.price}).`,
         service.group ? `Bereich: ${service.group}` : '',
         name ? `Name: ${name}` : '',
+        people ? `Personen: ${people}` : '',
+        duration ? `Dauer: ${duration}` : '',
         when ? `Wunschtermin: ${when}` : '',
         hint ? `Hinweis: ${hint}` : '',
         '',
@@ -1238,6 +1275,21 @@
     // message live update
     serviceSelect?.addEventListener('change', refreshMessageSafe);
     [nameEl, dateEl, timeEl, hintEl].forEach(el => el?.addEventListener('input', refreshMessageSafe));
+    peopleEl?.addEventListener('change', refreshMessageSafe);
+    durationEl?.addEventListener('change', refreshMessageSafe);
+
+    // price filter
+    function applyFilter(key){
+      const k = key || 'all';
+      filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === k || (k === 'all' && b.dataset.filter === 'all'))));
+      document.querySelectorAll('.priceGroup').forEach(g => {
+        const label = normalize(g.querySelector('h3')?.textContent);
+        const show = (k === 'all') || (normalize(k) === label);
+        g.style.display = show ? '' : 'none';
+      });
+    }
+    filterBtns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+    applyFilter('all');
 
     // gallery slider (from thumbnails)
     const thumbs = Array.from(document.querySelectorAll('.gallery img'));
